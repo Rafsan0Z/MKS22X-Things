@@ -23,8 +23,8 @@ class Rock extends Thing {
 
   void display() {
     /* ONE PERSON WRITE THIS */
-    fill(255);
-    ellipse(x,y,1.0,1.0);
+    //fill(0,0,255);
+    ellipse(x,y,15.0,15.0);
   }
 }
 
@@ -55,10 +55,10 @@ class Ball extends Thing implements Moveable {
   }
 
   void move() {
-    if (x <= 0 || x > width - size/2){
+    if (x <= size/2 || x > width - size/2){
       dx*=-1;
     }
-    else if (y <= 0 || y > height - size/2){
+    else if (y <= size/2 || y > height - size/2){
       dy*=-1;
     }
     x+=dx;
