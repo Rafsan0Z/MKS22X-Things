@@ -38,7 +38,7 @@ public class LivingRock extends Rock implements Moveable {
 class Ball extends Thing implements Moveable {
   Ball(float x, float y) {
     super(x, y);
-    size = 10;
+    size = 60;
     dx = 1;
     dy = 1;
   }
@@ -46,14 +46,15 @@ class Ball extends Thing implements Moveable {
   int dx;
   int dy = 1;
   void display() {
+    fill(255,0,0);
     ellipse(x,y,size,size);
   }
 
   void move() {
-    if (x <= 0 || x > width - 10){
+    if (x <= 0 || x > width - size/2){
       dx*=-1;
     }
-    else if (y <= 0 || y > height - size){
+    else if (y <= 0 || y > height - size/2){
       dy*=-1;
     }
     x+=dx;
@@ -86,7 +87,6 @@ void setup() {
 }
 void draw() {
   background(255);
-
   for (Displayable thing : thingsToDisplay) {
     thing.display();
   }
