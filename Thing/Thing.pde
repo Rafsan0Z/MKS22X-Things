@@ -38,18 +38,26 @@ public class LivingRock extends Rock implements Moveable {
 class Ball extends Thing implements Moveable {
   Ball(float x, float y) {
     super(x, y);
+    size = 10;
+    dx = 1;
+    dy = 1;
   }
-  int size = 10;
-  int dx = 1;
-  int dy = 1;
+  int size;
+  int dx;
+  int dy;
   void display() {
     ellipse(x,y,size,size);
   }
 
   void move() {
-    if (x <= 0){
-      dx*=-1; 
+    if (x <= 0 || x > width - 10){
+      dx*=-1;
     }
+    else if (y <= 0 || y > height - size){
+      dy*=-1;
+    }
+    x+=dx;
+    y+=dy;
   }
 }
 
