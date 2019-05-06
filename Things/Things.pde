@@ -1,3 +1,4 @@
+PImage rock;
 interface Displayable {
   void display();
 }
@@ -17,14 +18,17 @@ abstract class Thing implements Displayable {
 }
 
 class Rock extends Thing {
+  float h,w;
   Rock(float x, float y) {
     super(x, y);
+    h = 20+random(30);
+    w = 20+random(30);
   }
 
   void display() {
     /* ONE PERSON WRITE THIS */
     //fill(0,0,255);
-    ellipse(x,y,15.0,15.0);
+    image(rock,x,y,w,h);
   }
 }
 
@@ -86,6 +90,7 @@ void setup() {
     thingsToDisplay.add(m);
     thingsToMove.add(m);
   }
+  rock = loadImage("rock.jpg");
 }
 void draw() {
   background(255);
