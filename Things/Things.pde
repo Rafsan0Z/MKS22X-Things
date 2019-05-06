@@ -1,5 +1,5 @@
 PImage rock;
-PShape alien;
+PShape alien,top,bottom;
 interface Displayable {
   void display();
 }
@@ -73,29 +73,38 @@ class Person extends Thing implements Moveable {
  Person(float x, float y){
     super(x,y);
     alien = createShape(GROUP);
-    PShape top = createShape(ELLIPSE, -25, 0, 50, 50);
-    top.setFill(color(255));
-    PShape bottom = createShape(RECT, -25, 45, 50, 40);
-    bottom.setFill(color(0));
-    alien.addChild(top);
-    alien.addChild(bottom);
     dy = 1;
     dx = 1;
+    X = (int)x;
+    Y = (int)y;
+    //top = ellipse(X, Y, 50, 50);
+    //top.setFill(color(255));
+    //bottom = createShape(RECT, X, Y, 50, 40);
+    //bottom.setFill(color(0));
+    //alien.addChild(top);
+    //alien.addChild(bottom);
  }
- int dx,dy,size;
+ int dx,dy,size,X,Y;
  void move(){
-   if (x <= size/2 || x > width - size/2){
+   if (X <= size/2 || X > width - size/2){
       dx*=-1;
     }
-    else if (y <= size/2 || y > height - size/2){
+    else if (Y <= size/2 || Y > height - size/2){
       dy*=-1;
     }
-    x+=dx;
-    y+=dy;
+    X+=dx;
+    Y+=dy;
  }
  
  void display(){
-   shape(alien);
+   fill(color(255));
+   ellipse(X,Y,50,50);
+   fill(color(0));
+   rect(X,Y-18,50,40);
+   fill(color(200));
+   rect(X+30,Y-18,40,10);
+   fill(color(200));
+   rect(X+30,Y+12,40,10);
  }
 }
 
@@ -115,6 +124,9 @@ void setup() {
     thingsToMove.add(b);
     Rock r = new Rock(50+random(width-100), 50+random(height-100));
     thingsToDisplay.add(r);
+    Person p = new Person(50+random(width-100), 50+random(height-100));
+    thingsToDisplay.add(p);
+    thingsToMove.add(p);
   }
   for (int i = 0; i < 3; i++) {
     LivingRock m = new LivingRock(50+random(width-100), 50+random(height-100));
