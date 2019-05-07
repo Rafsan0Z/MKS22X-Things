@@ -1,5 +1,6 @@
 PImage rock;
 PShape alien,top,bottom;
+int tick;
 interface Displayable {
   void display();
 }
@@ -22,8 +23,8 @@ class Rock extends Thing {
   float h,w;
   Rock(float x, float y) {
     super(x, y);
-    h = 20+random(30);
-    w = 20+random(30);
+    h = 30+random(30);
+    w = 30+random(30);
   }
 
   void display() {
@@ -36,9 +37,31 @@ class Rock extends Thing {
 public class LivingRock extends Rock implements Moveable {
   LivingRock(float x, float y) {
     super(x, y);
+    dx = 1;
+    dy = 1;
+    lastStretch = tick;
+  }
+  int dx;
+  int dy = 1;
+  int lastStretch;
+  void display(){
+    int i = 0;
+    if (tick - lastStretch < 100){
+      i =  tick - lastStretch;
+    }else if (tick - lastStretch < 200){
+      i = 100 - (tick - lastStretch - 100);
+    }else{lastStretch = tick;}
+    image(rock,x,y,w+i,h);
   }
   void move() {
-    /* ONE PERSON WRITE THIS */
+    if (x <= 0 || x > width - w){
+      dx*=-1;
+    }
+    else if (y <= 0 || y > height - h){
+      dy*=-1;
+    }
+    x+=dx;
+    y+=dy;
   }
 }
 
@@ -69,44 +92,7 @@ class Ball extends Thing implements Moveable {
   }
 }
 
-class Person extends Thing implements Moveable {
- Person(float x, float y){
-    super(x,y);
-    alien = createShape(GROUP);
-    dy = 1;
-    dx = 1;
-    X = (int)x;
-    Y = (int)y;
-    //top = ellipse(X, Y, 50, 50);
-    //top.setFill(color(255));
-    //bottom = createShape(RECT, X, Y, 50, 40);
-    //bottom.setFill(color(0));
-    //alien.addChild(top);
-    //alien.addChild(bottom);
- }
- int dx,dy,size,X,Y;
- void move(){
-   if (X <= size/2 || X > width - size/2){
-      dx*=-1;
-    }
-    else if (Y <= size/2 || Y > height - size/2){
-      dy*=-1;
-    }
-    X+=dx;
-    Y+=dy;
- }
- 
- void display(){
-   fill(color(255));
-   ellipse(X,Y,50,50);
-   fill(color(0));
-   rect(X,Y-18,50,40);
-   fill(color(200));
-   rect(X+30,Y-18,40,10);
-   fill(color(200));
-   rect(X+30,Y+12,40,10);
- }
-}
+
 
 /*DO NOT EDIT THE REST OF THIS */
 
@@ -115,7 +101,6 @@ ArrayList<Moveable> thingsToMove;
 
 void setup() {
   size(1000, 800);
-
   thingsToDisplay = new ArrayList<Displayable>();
   thingsToMove = new ArrayList<Moveable>();
   for (int i = 0; i < 10; i++) {
@@ -124,9 +109,6 @@ void setup() {
     thingsToMove.add(b);
     Rock r = new Rock(50+random(width-100), 50+random(height-100));
     thingsToDisplay.add(r);
-    Person p = new Person(50+random(width-100), 50+random(height-100));
-    thingsToDisplay.add(p);
-    thingsToMove.add(p);
   }
   for (int i = 0; i < 3; i++) {
     LivingRock m = new LivingRock(50+random(width-100), 50+random(height-100));
@@ -134,13 +116,16 @@ void setup() {
     thingsToMove.add(m);
   }
   rock = loadImage("rock.jpg");
+  tick = 0;
 }
 void draw() {
   background(255);
+  //text("********"+tick+"",20,20);
   for (Displayable thing : thingsToDisplay) {
     thing.display();
   }
   for (Moveable thing : thingsToMove) {
     thing.move();
   }
+  tick++;
 }
