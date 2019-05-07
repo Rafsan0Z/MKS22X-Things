@@ -24,7 +24,7 @@ abstract class Thing implements Displayable {
   abstract void display();
 }
 
-class Rock extends Thing {
+class Rock extends Thing implements Collideable {
   float h,w;
   int choice;
   Rock(float x, float y) {
@@ -33,6 +33,10 @@ class Rock extends Thing {
     w = 20+random(30);
     Random rand = new Random();
     choice = rand.nextInt(3) + 1;
+  }
+  
+  boolean isTouching(Thing other){
+   return true; 
   }
   
   void complexShape() {
