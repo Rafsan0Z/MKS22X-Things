@@ -35,3 +35,5 @@ Display:
     b) A series of shapes (may need some instance variables from here onward)
     c) An Image 
     d) Choose randomly: Simple, Complex, or Image  (you may need a new constructor for this)
+    
+ Rafsan: I completed ball move method, fixed mistakes and added aliens (which were later deleted)
