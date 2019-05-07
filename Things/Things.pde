@@ -1,6 +1,5 @@
 import java.util.Random;
 PImage rock;
-PShape alien,top,bottom;
 PShape ralien, rhead, rbody;
 int tick;
 interface Displayable {
@@ -29,7 +28,7 @@ class Rock extends Thing {
     h = 20+random(30);
     w = 20+random(30);
     Random rand = new Random();
-    int choice = rand.nextInt(3)+1;
+    choice = rand.nextInt(3) + 1;
   }
   
   void complexShape() {
@@ -67,10 +66,10 @@ class Rock extends Thing {
     if (choice == 0) {
       complexShape();
     }
-    if (choice == 1) {
+    else if (choice == 1) {
       rimage();
     }
-    if (choice == 2) {
+    else if (choice == 2) {
       simple();
     }
   }
