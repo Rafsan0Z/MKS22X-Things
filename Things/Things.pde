@@ -34,7 +34,7 @@ class Rock extends Thing implements Collideable {
   }
   
   boolean isTouching(Thing other){
-    return true;
+    return other.x == this.x && other.y == this.y;
   }
   
   //void complexShape() {
@@ -118,7 +118,7 @@ public class LivingRock extends Rock implements Moveable {
   }
 }
 
-class Ball extends Thing implements Moveable {
+class Ball extends Thing implements Moveable,Collideable {
   Ball(float x, float y) {
     super(x, y);
     size = 60;
@@ -133,6 +133,10 @@ class Ball extends Thing implements Moveable {
   void display() {
     fill(c);
     ellipse(x,y,size,size);
+  }
+  
+  boolean isTouching(Thing other){
+    return other.x == this.x && other.y == this.y;
   }
 
   void move() {
@@ -186,6 +190,6 @@ void draw() {
   }
   for (Moveable thing : thingsToMove) {
     thing.move();
-  }
+  } 
   tick++;
 }
