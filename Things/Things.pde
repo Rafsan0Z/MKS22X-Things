@@ -6,7 +6,7 @@ interface Displayable {
   void display();
 }
 
-interface Moveable {
+interface Moveable{
   void move();
 }
 
@@ -151,7 +151,13 @@ class Ball extends Thing implements Moveable,Collideable {
   }
 }
 
+class BallType1 extends Ball{
+  //please comment its style of movement and collision
+}
 
+class BallType2 extends Ball{
+    //please comment its style of movement and collision
+}
 
 /*DO NOT EDIT THE REST OF THIS */
 
