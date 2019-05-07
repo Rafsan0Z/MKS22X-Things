@@ -38,3 +38,6 @@ Display:
     
  Rafsan: I completed ball move method, fixed mistakes and added aliens (which were later deleted)
  Ball: Rafsan and Theodore
+ 
+ Sharon: I worked on the display method for Rock and made simple and complex shapes. And then I modified the constructor and   display method to randomly pick which of the three to show for a certain rock. 
+ Rock: Jackson and Sharon
