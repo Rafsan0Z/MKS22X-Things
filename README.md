@@ -78,7 +78,8 @@ OPTIONALLY: It makes sense to have instance variables for xspeed and yspeed.
     -change the visuals so they look a little different.
 
 SETUP CHANGES
-10. Modify the setup to change the ball creation. Create half as one of the subclasses, and the other half should be the other subclass. 
+10. Modify the setup to change the ball creation. Create half as one of the subclasses, and the other half should be the other subclass.
+
 ------------------------------------------------------------Credits----------------------------------------------------------------
     
  Rafsan: I completed ball move method, fixed mistakes and added aliens (which were later deleted)
