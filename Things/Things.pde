@@ -1,5 +1,6 @@
 PImage rock;
 PShape alien,top,bottom;
+PShape ralien, rhead, rbody;
 interface Displayable {
   void display();
 }
@@ -24,12 +25,35 @@ class Rock extends Thing {
     super(x, y);
     h = 20+random(30);
     w = 20+random(30);
+
   }
 
   void display() {
     /* ONE PERSON WRITE THIS */
     //fill(0,0,255);
-    image(rock,x,y,w,h);
+    //image(rock,x,y,w,h);
+    fill(0,0,255);
+    
+    // Create the shape group
+    ralien = createShape(GROUP);
+
+    // Make two shapes
+    ellipseMode(CORNER);
+    rhead = createShape(RECT, x, y, w, h);
+    rhead.setFill(color(0,0,255));
+    rbody = createShape(TRIANGLE, x+20, y+20, x+10, y-20,x-20,y-20);
+    rbody.setFill(color(0,90,0));
+
+    // Add the two "child" shapes to the parent group
+    ralien.addChild(rbody);
+    ralien.addChild(rhead);
+    
+    rbody = createShape(ELLIPSE, x, y, 50.0, 50.0);
+    rbody.setFill(color(0,0,255));
+    
+    ralien.addChild(rbody);
+    
+    shape(ralien);
   }
 }
 
