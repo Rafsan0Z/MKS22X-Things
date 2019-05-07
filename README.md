@@ -36,7 +36,7 @@ Display:
     c) An Image 
     d) Choose randomly: Simple, Complex, or Image  (you may need a new constructor for this)
     
--------------------------------------------------------------------Day 2------------------------------------------------------------
+--------------------------------------------------------Day 2------------------------------------------------------------
 
 GIT README:
 0. In your git readme indicate 
