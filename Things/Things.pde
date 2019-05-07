@@ -10,6 +10,10 @@ interface Moveable {
   void move();
 }
 
+interface Collideable {
+ boolean isTouching(Thing other); 
+}
+
 abstract class Thing implements Displayable {
   float x, y;//Position of the Thing
 
@@ -20,13 +24,17 @@ abstract class Thing implements Displayable {
   abstract void display();
 }
 
-class Rock extends Thing {
+class Rock extends Thing implements Collideable {
   float h,w;
   int choice;
   Rock(float x, float y) {
     super(x, y);
     h = 20+random(30);
     w = 20+random(30);
+  }
+  
+  boolean isTouching(Thing other){
+    return true;
   }
   
   //void complexShape() {
@@ -145,22 +153,26 @@ class Ball extends Thing implements Moveable {
 
 ArrayList<Displayable> thingsToDisplay;
 ArrayList<Moveable> thingsToMove;
+ArrayList<Collideable> ListOfCollideables;
 
 void setup() {
   size(1000, 800);
   thingsToDisplay = new ArrayList<Displayable>();
   thingsToMove = new ArrayList<Moveable>();
+  ListOfCollideables = new ArrayList<Collideable>();
   for (int i = 0; i < 10; i++) {
     Ball b = new Ball(50+random(width-100), 50+random(height-100));
     thingsToDisplay.add(b);
     thingsToMove.add(b);
     Rock r = new Rock(50+random(width-100), 50+random(height-100));
     thingsToDisplay.add(r);
+    ListOfCollideables.add(r);
   }
   for (int i = 0; i < 3; i++) {
     LivingRock m = new LivingRock(50+random(width-100), 50+random(height-100));
     thingsToDisplay.add(m);
     thingsToMove.add(m);
+    ListOfCollideables.add(m);
   }
   rock = loadImage("rock.jpg");
   cuterock = loadImage("cuterock.jpeg");
