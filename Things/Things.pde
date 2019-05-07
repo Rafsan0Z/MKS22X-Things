@@ -1,5 +1,5 @@
 import java.util.Random;
-PImage rock;
+PImage rock, cuterock;
 PShape ralien, rhead, rbody;
 int tick;
 interface Displayable {
@@ -8,10 +8,6 @@ interface Displayable {
 
 interface Moveable {
   void move();
-}
-
-interface Collideable {
- boolean isTouching(Thing other); 
 }
 
 abstract class Thing implements Displayable {
@@ -24,62 +20,61 @@ abstract class Thing implements Displayable {
   abstract void display();
 }
 
-class Rock extends Thing implements Collideable {
+class Rock extends Thing {
   float h,w;
   int choice;
   Rock(float x, float y) {
     super(x, y);
     h = 20+random(30);
     w = 20+random(30);
-    Random rand = new Random();
-    choice = rand.nextInt(3) + 1;
   }
   
-  boolean isTouching(Thing other){
-   return true; 
-  }
-  
-  void complexShape() {
-    // Create the shape group
-    ralien = createShape(GROUP);
+  //void complexShape() {
+  //  // Create the shape group
+  //  ralien = createShape(GROUP);
 
-    // Make three shapes
-    ellipseMode(CORNER);
-    rhead = createShape(RECT, x+20, y+20, 30.0, 30.0);
-    rhead.setFill(color(0,0,100));
-    rbody = createShape(TRIANGLE, x+20, y+20, x+10, y-20,x-20,y-20);
-    rbody.setFill(color(0,90,0));
+  //  // Make three shapes
+  //  ellipseMode(CORNER);
+  //  rhead = createShape(RECT, x+20, y+20, 30.0, 30.0);
+  //  rhead.setFill(color(0,0,100));
+  //  rbody = createShape(TRIANGLE, x+20, y+20, x+10, y-20,x-20,y-20);
+  //  rbody.setFill(color(0,90,0));
 
-    // Add the two "child" shapes to the parent group
-    ralien.addChild(rbody);
-    ralien.addChild(rhead);
+  //  // Add the two "child" shapes to the parent group
+  //  ralien.addChild(rbody);
+  //  ralien.addChild(rhead);
     
-   rbody = createShape(ELLIPSE, x-15, y-15, 50.0, 50.0);
-   ralien.addChild(rbody);
+  // rbody = createShape(ELLIPSE, x-15, y-15, 50.0, 50.0);
+  // ralien.addChild(rbody);
     
-    shape(ralien);
-  }
+  //  shape(ralien);
+  //}
   
-  void rimage() {
-    image(rock,x,y,w,h);
-  }
+  //void rimage() {
+  //  if (random(0,1) < 0.2) {
+  //    image(rock,x,y,w,h);
+  //  }
+  //  else {
+  //    image(cuterock,x,y,w,h);
+  //  }
+  //}
   
-  void simple() {
-    fill(0,0,120);
-    ellipse(x,y,30.0,30.0);
-  }
+  //void simple() {
+  //  fill(0,0,120);
+  //  ellipse(x,y,30.0,30.0);
+  //}
 
   void display() {
     /* ONE PERSON WRITE THIS */
-    if (choice == 0) {
-      complexShape();
-    }
-    else if (choice == 1) {
-      rimage();
-    }
-    else if (choice == 2) {
-      simple();
-    }
+    //if (choice == 0) {
+    //  complexShape();
+    //}
+    //else if (choice == 1) {
+      image(rock,x,y,w,h);
+    //}
+    //else if (choice == 2) {
+    //  simple();
+    //}
   }
 }
 
@@ -100,12 +95,10 @@ public class LivingRock extends Rock implements Moveable {
     }else if (tick - lastStretch < 200){
       i = 100 - (tick - lastStretch - 100);
     }else{lastStretch = tick;}
-    image(rock,x,y,w+i,h);
+    image(cuterock,x,y,w+i,h);
   }
   void move() {
     /* ONE PERSON WRITE THIS */
-    x++;
-    y++;
     if (x <= 0 || x > width){
       dx*=-1;
     }
@@ -152,20 +145,17 @@ class Ball extends Thing implements Moveable {
 
 ArrayList<Displayable> thingsToDisplay;
 ArrayList<Moveable> thingsToMove;
-ArrayList<Collideable> ListOfCollideables;
 
 void setup() {
   size(1000, 800);
   thingsToDisplay = new ArrayList<Displayable>();
   thingsToMove = new ArrayList<Moveable>();
-  ListOfCollideables = new ArrayList<Collideable>();
   for (int i = 0; i < 10; i++) {
     Ball b = new Ball(50+random(width-100), 50+random(height-100));
     thingsToDisplay.add(b);
     thingsToMove.add(b);
     Rock r = new Rock(50+random(width-100), 50+random(height-100));
     thingsToDisplay.add(r);
-    ListOfCollideables.add(r);
   }
   for (int i = 0; i < 3; i++) {
     LivingRock m = new LivingRock(50+random(width-100), 50+random(height-100));
@@ -173,6 +163,7 @@ void setup() {
     thingsToMove.add(m);
   }
   rock = loadImage("rock.jpg");
+  cuterock = loadImage("cuterock.jpeg");
   tick = 0;
 }
 void draw() {
