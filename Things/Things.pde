@@ -29,70 +29,25 @@ class Rock extends Thing implements Collideable {
   int choice;
   Rock(float x, float y) {
     super(x, y);
-    h = 20+random(30);
-    w = 20+random(30);
+    h = 40+random(30);
+    w = 40+random(30);
   }
-  
   boolean isTouching(Thing other){
     return other.x == this.x && other.y == this.y;
   }
-  
-  //void complexShape() {
-  //  // Create the shape group
-  //  ralien = createShape(GROUP);
-
-  //  // Make three shapes
-  //  ellipseMode(CORNER);
-  //  rhead = createShape(RECT, x+20, y+20, 30.0, 30.0);
-  //  rhead.setFill(color(0,0,100));
-  //  rbody = createShape(TRIANGLE, x+20, y+20, x+10, y-20,x-20,y-20);
-  //  rbody.setFill(color(0,90,0));
-
-  //  // Add the two "child" shapes to the parent group
-  //  ralien.addChild(rbody);
-  //  ralien.addChild(rhead);
-    
-  // rbody = createShape(ELLIPSE, x-15, y-15, 50.0, 50.0);
-  // ralien.addChild(rbody);
-    
-  //  shape(ralien);
-  //}
-  
-  //void rimage() {
-  //  if (random(0,1) < 0.2) {
-  //    image(rock,x,y,w,h);
-  //  }
-  //  else {
-  //    image(cuterock,x,y,w,h);
-  //  }
-  //}
-  
-  //void simple() {
-  //  fill(0,0,120);
-  //  ellipse(x,y,30.0,30.0);
-  //}
-
   void display() {
-    /* ONE PERSON WRITE THIS */
-    //if (choice == 0) {
-    //  complexShape();
-    //}
-    //else if (choice == 1) {
       image(rock,x,y,w,h);
-    //}
-    //else if (choice == 2) {
-    //  simple();
-    //}
   }
 }
-
 public class LivingRock extends Rock implements Moveable {
   LivingRock(float x, float y) {
     super(x, y);
     dx = 1;
     dy = 1;
     lastStretch = tick;
+    baseW = w;
   }
+  float baseW;
   int dx;
   int dy = 1;
   int lastStretch;
@@ -103,14 +58,21 @@ public class LivingRock extends Rock implements Moveable {
     }else if (tick - lastStretch < 200){
       i = 100 - (tick - lastStretch - 100);
     }else{lastStretch = tick;}
-    image(cuterock,x,y,w+i,h);
+    w = baseW+i;
+    image(rock,x,y,w,h);
+    fill(255);
+    ellipse(x+(w)/3,y+10,(w)/6, 10);
+    ellipse(x+2*(w)/3,y+10,(w)/6, 10);
+    fill(0);
+    ellipse(x+(w)/3,y+11,(w)/10, 6);
+    ellipse(x+2*(w)/3,y+11,(w)/10, 6);
   }
   void move() {
     /* ONE PERSON WRITE THIS */
-    if (x <= 0 || x > width){
+    if (x <= 0 || x > width-w){
       dx*=-1;
     }
-    else if (y <= 0 || y > height){
+    else if (y <= 0 || y > height-h){
       dy*=-1;
     }
     x+=dx;
@@ -184,7 +146,6 @@ void setup() {
 }
 void draw() {
   background(255);
-  //text("********"+tick+"",20,20);
   for (Displayable thing : thingsToDisplay) {
     thing.display();
   }
