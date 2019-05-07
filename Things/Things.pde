@@ -69,8 +69,8 @@ class Ball extends Thing implements Moveable {
   Ball(float x, float y) {
     super(x, y);
     size = 60;
-    dx = 1;
-    dy = 1;
+    dx = (int)random(1,3);if((int)random(2) == 0){dx *= -1;}
+    dy = (int)random(1,3);if ((int)random(2) == 0){dy *= -1;}
   }
   int size;
   int dx;
