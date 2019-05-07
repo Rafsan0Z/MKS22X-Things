@@ -95,10 +95,13 @@ public class LivingRock extends Rock implements Moveable {
     image(rock,x,y,w+i,h);
   }
   void move() {
-    if (x <= 0 || x > width - w){
+    /* ONE PERSON WRITE THIS */
+    x++;
+    y++;
+    if (x <= 0 || x > width){
       dx*=-1;
     }
-    else if (y <= 0 || y > height - h){
+    else if (y <= 0 || y > height){
       dy*=-1;
     }
     x+=dx;
