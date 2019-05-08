@@ -16,10 +16,11 @@ interface Collideable {
 
 abstract class Thing implements Displayable {
   float x, y;//Position of the Thing
-
+  float radius;
   Thing(float x, float y) {
     this.x = x;
     this.y = y;
+    radius = 0;
   }
   abstract void display();
 }
@@ -31,6 +32,7 @@ class Rock extends Thing implements Collideable {
     super(x, y);
     h = 40+random(30);
     w = 40+random(30);
+    radius = sqrt(sq(h)+sq(w))/2;
   }
   boolean isTouching(Thing other){
     return other.x == this.x && other.y == this.y;
@@ -66,12 +68,11 @@ public class LivingRock extends Rock implements Moveable {
     fill(0);
     ellipse(x+(w)/3,y+11,(w)/10, 6);
     ellipse(x+2*(w)/3,y+11,(w)/10, 6);
-    text("display: "+w,20,20);
+    //text("display: "+w,20,20);
   }
   void move() {
-    /* ONE PERSON WRITE THIS */
-    text("move: "+(x+w),20,40);
-    text("width: "+width,20,60);
+    //text("move: "+(x+w),20,40);
+    //text("width: "+width,20,60);
     if (x <= 0 || x + w +20>= width){
       dx*=-1; //println("dx: "+x);
     }
@@ -86,33 +87,46 @@ public class LivingRock extends Rock implements Moveable {
 class Ball extends Thing implements Moveable,Collideable {
   Ball(float x, float y) {
     super(x, y);
-    size = 60;
-    dx = (int)random(1,3);if((int)random(2) == 0){dx *= -1;}
-    dy = (int)random(1,3);if ((int)random(2) == 0){dy *= -1;}
+    size = (int)random(40)+ 40;
+    //dx = (int)random(1,3);if((int)random(2) == 0){dx *= -1;}
+    //dy = (int)random(1,3);if ((int)random(2) == 0){dy *= -1;}
     c = color((int)random(256),(int)random(256),(int)random(256));
+    radius = size/2;
+    speed = 1;
+    direction = random(2*PI);
   }
   color c;
   int size;
-  int dx;
-  int dy = 1;
+  float speed;
+  float direction;
+  //float dx;
+  //float dy;
   void display() {
     fill(c);
     ellipse(x,y,size,size);
   }
   
   boolean isTouching(Thing other){
-    return other.x == this.x && other.y == this.y;
+    return sqrt(sq(this.x-other.x)+sq(this.y-other.y)) < this.radius + other.radius + 5;
   }
-
+  void reflection(int slope){//up down left right
+     
+  }
   void move() {
+    for (Collideable coll : ListOfCollideables){
+      if (coll != this && coll.isTouching(this)){
+         
+      }
+    }
     if (x <= size/2 || x > width - size/2){
-      dx*=-1; dy*=random(.9,1.3);
+     
+      //dx*=-1; //dy*=random(.9,1.1);
     }
     else if (y <= size/2 || y > height - size/2){
-      dy*=-1; dx*=random(.9,1.3);
+      //dy*=-1; //dx*=random(.9,1.1);
     }
-    x+=dx;
-    y+=dy;
+    x+=sin(direction);
+    y+=cos(direction);
   }
 }
 
@@ -127,15 +141,16 @@ void setup() {
   thingsToDisplay = new ArrayList<Displayable>();
   thingsToMove = new ArrayList<Moveable>();
   ListOfCollideables = new ArrayList<Collideable>();
-  for (int i = 0; i < 10; i++) {
+  for (int i = 0; i < 6; i++) {
     Ball b = new Ball(50+random(width-100), 50+random(height-100));
     thingsToDisplay.add(b);
     thingsToMove.add(b);
-    Rock r = new Rock(50+random(width-100), 50+random(height-100));
-    thingsToDisplay.add(r);
-    ListOfCollideables.add(r);
+    //Rock r = new Rock(50+random(width-100), 50+random(height-100));
+    //thingsToDisplay.add(r);
+    //ListOfCollideables.add(r);
+    ListOfCollideables.add(b);
   }
-  for (int i = 0; i < 1; i++) {
+  for (int i = 0; i < 3; i++) {
     LivingRock m = new LivingRock(50+random(width-100), 50+random(height-100));
     thingsToDisplay.add(m);
     thingsToMove.add(m);
