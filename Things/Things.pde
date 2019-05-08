@@ -1,5 +1,5 @@
 import java.util.Random;
-PImage rock, cuterock;
+PImage rock, cuterock, rock2;
 PShape ralien, rhead, rbody;
 int tick;
 interface Displayable {
@@ -23,10 +23,15 @@ abstract class Thing implements Displayable {
 class Rock extends Thing {
   float h,w;
   int choice;
+  PImage image;
   Rock(float x, float y) {
     super(x, y);
     h = 20+random(30);
     w = 20+random(30);
+    image = rock;
+    if (random(0,1) < 0.5) {
+      image = rock2;
+    }
   }
   
   //void complexShape() {
@@ -70,7 +75,7 @@ class Rock extends Thing {
     //  complexShape();
     //}
     //else if (choice == 1) {
-      image(rock,x,y,w,h);
+    image(rock, x, y, w, h);
     //}
     //else if (choice == 2) {
     //  simple();
@@ -99,10 +104,10 @@ public class LivingRock extends Rock implements Moveable {
   }
   void move() {
     /* ONE PERSON WRITE THIS */
-    if (x <= 0 || x > width){
+    if (x <= 0 || x > width-w){
       dx*=-1;
     }
-    else if (y <= 0 || y > height){
+    else if (y <= 0 || y > height-h){
       dy*=-1;
     }
     x+=dx;
@@ -164,6 +169,7 @@ void setup() {
   }
   rock = loadImage("rock.jpg");
   cuterock = loadImage("cuterock.jpeg");
+  rock2 = loadImage("rock2.jpeg");
   tick = 0;
 }
 void draw() {
