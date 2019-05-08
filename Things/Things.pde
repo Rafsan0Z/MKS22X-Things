@@ -48,8 +48,8 @@ public class LivingRock extends Rock implements Moveable {
     baseW = w;
   }
   float baseW;
-  int dx;
-  int dy = 1;
+  float dx;
+  float dy = 1;
   int lastStretch;
   void display(){
     int i = 0;
@@ -66,13 +66,16 @@ public class LivingRock extends Rock implements Moveable {
     fill(0);
     ellipse(x+(w)/3,y+11,(w)/10, 6);
     ellipse(x+2*(w)/3,y+11,(w)/10, 6);
+    text("display: "+w,20,20);
   }
   void move() {
     /* ONE PERSON WRITE THIS */
-    if (x <= 0 || x > width-w){
-      dx*=-1;
+    text("move: "+(x+w),20,40);
+    text("width: "+width,20,60);
+    if (x <= 0 || x + w +20>= width){
+      dx*=-1; //println("dx: "+x);
     }
-    else if (y <= 0 || y > height-h){
+    else if (y <= 0 || y >= height-h){
       dy*=-1;
     }
     x+=dx;
@@ -103,10 +106,10 @@ class Ball extends Thing implements Moveable,Collideable {
 
   void move() {
     if (x <= size/2 || x > width - size/2){
-      dx*=-1;
+      dx*=-1; dy*=random(.9,1.3);
     }
     else if (y <= size/2 || y > height - size/2){
-      dy*=-1;
+      dy*=-1; dx*=random(.9,1.3);
     }
     x+=dx;
     y+=dy;
@@ -132,7 +135,7 @@ void setup() {
     thingsToDisplay.add(r);
     ListOfCollideables.add(r);
   }
-  for (int i = 0; i < 3; i++) {
+  for (int i = 0; i < 1; i++) {
     LivingRock m = new LivingRock(50+random(width-100), 50+random(height-100));
     thingsToDisplay.add(m);
     thingsToMove.add(m);
@@ -144,11 +147,11 @@ void setup() {
 }
 void draw() {
   background(255);
-  for (Displayable thing : thingsToDisplay) {
-    thing.display();
-  }
   for (Moveable thing : thingsToMove) {
     thing.move();
+  }
+  for (Displayable thing : thingsToDisplay) {
+    thing.display();
   } 
   tick++;
 }
