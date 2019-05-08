@@ -1,8 +1,9 @@
 import java.util.Random;
-PImage rock, cuterock;
+PImage rock, clearrock, clearrock2;
 PShape ralien, rhead, rbody;
 int tick;
-interface Displayable {
+
+interface Displayable{
   void display();
 }
 
@@ -28,17 +29,35 @@ abstract class Thing implements Displayable {
 class Rock extends Thing implements Collideable {
   float h,w;
   int choice;
+  PImage rimage;
+  
   Rock(float x, float y) {
     super(x, y);
-    h = 40+random(30);
+    h = 400+random(30);
     w = 40+random(30);
+    //rimage = clearrock;
+    if (random(0,1) < 0.5) {
+      choice = 0;
+    }
+    else {
+      choice = 1;
+    }
     radius = sqrt(sq(h)+sq(w))/2;
   }
+  
   boolean isTouching(Thing other){
     return other.x == this.x && other.y == this.y;
   }
+  
   void display() {
-      image(rock,x,y,w,h);
+    /* ONE PERSON WRITE THIS */
+    if (choice == 0) {
+       image(clearrock,x,y,w,h);
+    }
+    else {
+      image(clearrock2, x, y, w, h);
+      
+    }
   }
 }
 public class LivingRock extends Rock implements Moveable {
@@ -54,14 +73,16 @@ public class LivingRock extends Rock implements Moveable {
   float dy = 1;
   int lastStretch;
   void display(){
-    int i = 0;
-    if (tick - lastStretch < 100){
-      i =  tick - lastStretch;
-    }else if (tick - lastStretch < 200){
-      i = 100 - (tick - lastStretch - 100);
-    }else{lastStretch = tick;}
-    w = baseW+i;
-    image(rock,x,y,w,h);
+
+    //int i = 0;
+    //if (tick - lastStretch < 100){
+    //  i =  tick - lastStretch;
+    //}else if (tick - lastStretch < 200){
+    //  i = 100 - (tick - lastStretch - 100);
+    //}else{lastStretch = tick;}
+    //w = baseW+i;
+    image(clearrock,x,y,w,h);
+    //image(clearrock,x,y,w,h);
     fill(255);
     ellipse(x+(w)/3,y+10,(w)/6, 10);
     ellipse(x+2*(w)/3,y+10,(w)/6, 10);
@@ -79,10 +100,21 @@ public class LivingRock extends Rock implements Moveable {
     else if (y <= 0 || y >= height-h){
       dy*=-1;
     }
+    else if (y <= 0 || y > height-h){
+      //text("move: "+(x+w),20,40);
+      //text("width: "+width,20,60);
+      if (x <= 0 || x + w +20>= width){
+        dx*=-1; //println("dx: "+x);
+      }
+      else if (y <= 0 || y >= height-h){
+        dy*=-1;
+      }
     x+=dx;
     y+=dy;
+    }
   }
 }
+
 
 class Ball extends Thing implements Moveable,Collideable {
   Ball(float x, float y) {
@@ -157,7 +189,8 @@ void setup() {
     ListOfCollideables.add(m);
   }
   rock = loadImage("rock.jpg");
-  cuterock = loadImage("cuterock.jpeg");
+  clearrock = loadImage("rock.png");
+  clearrock2 = loadImage("rock2.png");
   tick = 0;
 }
 void draw() {
