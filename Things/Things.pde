@@ -1,5 +1,5 @@
 import java.util.Random;
-PImage rock, clearrock, rock2;
+PImage rock, clearrock, clearrock2;
 PShape ralien, rhead, rbody;
 int tick;
 
@@ -28,31 +28,34 @@ abstract class Thing implements Displayable {
 class Rock extends Thing implements Collideable {
   float h,w;
   int choice;
-  PImage image;
+  PImage rimage;
+  
   Rock(float x, float y) {
     super(x, y);
     h = 20+random(30);
     w = 20+random(30);
-    image = rock;
+    //rimage = clearrock;
     if (random(0,1) < 0.5) {
-      image = rock2;
+      choice = 0;
     }
-
+    else {
+      choice = 1;
+    }
   }
+  
   boolean isTouching(Thing other){
     return other.x == this.x && other.y == this.y;
   }
+  
   void display() {
     /* ONE PERSON WRITE THIS */
-    //if (choice == 0) {
-    //  complexShape();
-    //}
-    //else if (choice == 1) {
-    image(rock, x, y, w, h);
-    //}
-    //else if (choice == 2) {
-    //  simple();
-    //}
+    if (choice == 0) {
+       image(clearrock,x,y,w,h);
+    }
+    else {
+      image(clearrock2, x, y, w, h);
+      
+    }
   }
 }
 public class LivingRock extends Rock implements Moveable {
@@ -165,7 +168,7 @@ void setup() {
   }
   rock = loadImage("rock.jpg");
   clearrock = loadImage("rock.png");
-  rock2 = loadImage("rock2.jpeg");
+  clearrock2 = loadImage("rock2.png");
   tick = 0;
 }
 void draw() {
