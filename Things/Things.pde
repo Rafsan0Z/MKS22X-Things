@@ -1,5 +1,5 @@
 import java.util.Random;
-PImage rock, cuterock, rock2;
+PImage rock, clearrock, rock2;
 PShape ralien, rhead, rbody;
 int tick;
 
@@ -75,7 +75,7 @@ public class LivingRock extends Rock implements Moveable {
       i = 100 - (tick - lastStretch - 100);
     }else{lastStretch = tick;}
     w = baseW+i;
-    image(rock,x,y,w,h);
+    image(clearrock,x,y,w,h);
     fill(255);
     ellipse(x+(w)/3,y+10,(w)/6, 10);
     ellipse(x+2*(w)/3,y+10,(w)/6, 10);
@@ -164,7 +164,7 @@ void setup() {
     ListOfCollideables.add(m);
   }
   rock = loadImage("rock.jpg");
-  cuterock = loadImage("cuterock.jpeg");
+  clearrock = loadImage("rock.png");
   rock2 = loadImage("rock2.jpeg");
   tick = 0;
 }
