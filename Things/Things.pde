@@ -71,21 +71,23 @@ public class LivingRock extends Rock implements Moveable {
   float dy = 1;
   int lastStretch;
   void display(){
-    int i = 0;
-    if (tick - lastStretch < 100){
-      i =  tick - lastStretch;
-    }else if (tick - lastStretch < 200){
-      i = 100 - (tick - lastStretch - 100);
-    }else{lastStretch = tick;}
-    w = baseW+i;
-    image(clearrock,x,y,w,h);
+
+    //int i = 0;
+    //if (tick - lastStretch < 100){
+    //  i =  tick - lastStretch;
+    //}else if (tick - lastStretch < 200){
+    //  i = 100 - (tick - lastStretch - 100);
+    //}else{lastStretch = tick;}
+    //w = baseW+i;
+    image(rock,x,y,w,h);
+    //image(clearrock,x,y,w,h);
     fill(255);
     ellipse(x+(w)/3,y+10,(w)/6, 10);
     ellipse(x+2*(w)/3,y+10,(w)/6, 10);
     fill(0);
     ellipse(x+(w)/3,y+11,(w)/10, 6);
     ellipse(x+2*(w)/3,y+11,(w)/10, 6);
-    text("display: "+w,20,20);
+    //text("display: "+w,20,20);
   }
   void move() {
     /* ONE PERSON WRITE THIS */
@@ -93,18 +95,18 @@ public class LivingRock extends Rock implements Moveable {
       dx*=-1;
     }
     else if (y <= 0 || y > height-h){
-    text("move: "+(x+w),20,40);
-    text("width: "+width,20,60);
-    if (x <= 0 || x + w +20>= width){
-      dx*=-1; //println("dx: "+x);
-    }
-    else if (y <= 0 || y >= height-h){
-      dy*=-1;
-    }
+      //text("move: "+(x+w),20,40);
+      //text("width: "+width,20,60);
+      if (x <= 0 || x + w +20>= width){
+        dx*=-1; //println("dx: "+x);
+      }
+      else if (y <= 0 || y >= height-h){
+        dy*=-1;
+      }
     x+=dx;
     y+=dy;
+    }
   }
-}
 }
 
 
@@ -160,7 +162,7 @@ void setup() {
     thingsToDisplay.add(r);
     ListOfCollideables.add(r);
   }
-  for (int i = 0; i < 1; i++) {
+  for (int i = 0; i < 3; i++) {
     LivingRock m = new LivingRock(50+random(width-100), 50+random(height-100));
     thingsToDisplay.add(m);
     thingsToMove.add(m);
