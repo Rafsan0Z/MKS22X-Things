@@ -69,13 +69,17 @@ public class LivingRock extends Rock implements Moveable{
   LivingRock(float x, float y) {
     super(x, y);
     dx = 1;
-    dy = 1;
+    centerx = x;
+    centery = y;
+    radius = random(10,100);
     lastStretch = tick;
     baseW = w;
   }
   float baseW;
   float dx;
-  float dy = 1;
+  float change = 1;
+  float centerx, centery;
+  float radius;
   int lastStretch;
   void display(){
 
@@ -99,23 +103,23 @@ public class LivingRock extends Rock implements Moveable{
   void move() {
     //text("move: "+(x+w),20,40);
     //text("width: "+width,20,60);
-    if (x <= 0 || x + w +20>= width){
-      dx*=-1; //println("dx: "+x);
+    if (centerx + dx + w +20>= width){
+      centerx = (width - w)/2; //println("dx: "+x);
     }
-    else if (y <= 0 || y >= height-h){
-      dy*=-1;
+    else if (centerx + dx < 0) {
+      centerx = (width - w)/2;
     }
-    else if (y <= 0 || y > height-h){
-      //text("move: "+(x+w),20,40);
-      //text("width: "+width,20,60);
-      if (x <= 0 || x + w +20>= width){
-        dx*=-1; //println("dx: "+x);
-      }
-      else if (y <= 0 || y >= height-h){
-        dy*=-1;
-      }
-    x+=dx;
-    y+=dy;
+    else if (centery + sqrt(radius*radius-dx*dx) >= height-h){
+      centery= (height-h)/2;
+    }
+    else if (centery + sqrt(radius*radius-dx*dx) < 0) {
+      centery= (height-h)/2;
+    }
+    x = centerx + dx;
+    y = centery + sqrt(radius*radius-dx*dx);
+    dx -= change;
+    if (dx < radius * -1 || dx > radius) {
+      change *= -1;
     }
   }
 }
