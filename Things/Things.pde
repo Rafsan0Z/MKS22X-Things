@@ -155,8 +155,8 @@ class Ball extends Thing implements Moveable,Collideable {
   void move() {
     for (Collideable coll : ListOfCollideables){
       if (coll != this && coll.isTouching(this)){
-float m = (this.x - co.getX()) / (this.y - co.getY());
-        float angleOfNormal = slopeToRadians(this.y - co.getY(),this.x - co.getX());
+        float m = (this.x - coll.getX()) / (this.y - coll.getY());
+        float angleOfNormal = slopeToRadians(this.y - coll.getY(),this.x - coll.getX());
         float angleOfIncidence = slopeToRadians(dx,dy);
         float angleOfReflection = 2*angleOfNormal - angleOfIncidence;
         float magnitude = sqrt(sq(dx)+sq(dy));
