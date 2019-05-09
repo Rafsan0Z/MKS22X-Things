@@ -83,15 +83,7 @@ public class LivingRock extends Rock implements Moveable{
   int lastStretch;
   void display(){
 
-    //int i = 0;
-    //if (tick - lastStretch < 100){
-    //  i =  tick - lastStretch;
-    //}else if (tick - lastStretch < 200){
-    //  i = 100 - (tick - lastStretch - 100);
-    //}else{lastStretch = tick;}
-    //w = baseW+i;
     image(clearrock,x,y,w,h);
-    //image(clearrock,x,y,w,h);
     fill(255);
     ellipse(x+(w)/3,y+10,(w)/6, 10);
     ellipse(x+2*(w)/3,y+10,(w)/6, 10);
@@ -121,6 +113,14 @@ public class LivingRock extends Rock implements Moveable{
     if (dx < radius * -1 || dx > radius) {
       change *= -1;
     }
+    pushMatrix();
+    rotate(radians(2));
+    translate(radius/x,radius/y);
+    fill(0);
+    popMatrix();
+    image(clearrock,x,y,w,h);
+    
+    
   }
 }
 
@@ -224,9 +224,9 @@ void setup() {
     Ball b = new Ball(50+random(width-100), 50+random(height-100));
     thingsToDisplay.add(b);
     thingsToMove.add(b);
-    //Rock r = new Rock(50+random(width-100), 50+random(height-100));
-    //thingsToDisplay.add(r);
-    //ListOfCollideables.add(r);
+    Rock r = new Rock(50+random(width-100), 50+random(height-100));
+    thingsToDisplay.add(r);
+    ListOfCollideables.add(r);
     ListOfCollideables.add(b);
   }
   for (int i = 0; i < 3; i++) {
