@@ -198,7 +198,15 @@ public class LivingRock extends Rock implements Moveable{
   }
   
 }
-
+class Ball2 extends Ball{
+  Ball2(float x, float y){super(x,y);}
+  void collide(){
+    float ox = dx;
+    float oy = dy;
+    super.collide();
+    if (dx != ox && dy != oy){c = color((int)random(256),(int)random(256),(int)random(256));}
+  }
+}
 class Ball extends Thing implements Moveable,Collideable {
   Ball(float x, float y) {
     super(x, y);
@@ -300,7 +308,8 @@ void setup() {
   ListOfCollideables.add(b);
   
   for (int i = 0; i < 10; i++) {
-    b = new Ball(60+random(width-100), 60+random(height-100));
+    if (i%2 == 0){b = new Ball(60+random(width-100), 60+random(height-100));}
+    else{b = new Ball2(60+random(width-100), 60+random(height-100));}
     thingsToDisplay.add(b);
     thingsToMove.add(b);
     ListOfCollideables.add(b);
