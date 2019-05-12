@@ -57,11 +57,6 @@ class Rock extends Thing implements Collideable {
     }
     radius = sqrt(sq(h)+sq(w))/2;
   }
-  
-  boolean isTouching(Thing other){
-    return other.x == this.x && other.y == this.y;
-  }
-  
   void display() {
     /* ONE PERSON WRITE THIS */
     if (choice == 0) {
@@ -69,7 +64,6 @@ class Rock extends Thing implements Collideable {
     }
     else {
       image(clearrock2, x, y, w, h);
-      
     }
   }
 }
@@ -228,7 +222,6 @@ class Ball extends Thing implements Moveable,Collideable {
     this.dx = dx;
     this.dy = dy;
   }
-  
   color c;
   int size;
   float speed;
@@ -242,12 +235,13 @@ class Ball extends Thing implements Moveable,Collideable {
   void collide(){
     for (Collideable coll : ListOfCollideables){
       if (coll != this && coll.isTouching(this)){
-        float angleOfReflection = calculateBounce(dx,dy,x-coll.getX(), y-coll.getY());
-        println("relfect at: "+degrees(angleOfReflection)%360);
-        float magnitude = sqrt(sq(dx)+sq(dy));
-        dx = magnitude*sin(angleOfReflection);
-        dy = magnitude*cos(angleOfReflection);
-        //exit();
+        PVector v = new PVector(dx,dy);
+        if (v.mag() > 4){v.setMag(v.mag()*.5);}
+        PVector f = new PVector(getX() - coll.getX(),getY() - coll.getY());
+        f.normalize();
+        v.add(f);
+        dx = v.x;
+        dy = v.y;
       }
     }
   }
@@ -312,7 +306,7 @@ void setup() {
   thingsToMove.add(b);
   ListOfCollideables.add(b);
   
-  for (int i = 0; i < 0; i++) {
+  for (int i = 0; i < 10; i++) {
     b = new Ball(60+random(width-100), 60+random(height-100));
     thingsToDisplay.add(b);
     thingsToMove.add(b);
