@@ -89,6 +89,11 @@ public class LivingRock extends Rock implements Moveable{
   float centerx, centery;
   float radius;
   int lastStretch;
+  float xi = random(-2,2);
+  float yi = random(-2,2);
+  float angle = random(360);
+  int xspeed = 50;
+  int yspeed = 50;
   void display(){
     image(clearrock,x,y,w,h);
     fill(255);
@@ -97,35 +102,58 @@ public class LivingRock extends Rock implements Moveable{
     fill(0);
     ellipse(x+(w)/3,y+11,(w)/10, 6);
     ellipse(x+2*(w)/3,y+11,(w)/10, 6);
+    fill(255);
     //text("display: "+w,20,20);
   }
   void move() {
     //text("move: "+(x+w),20,40);
     //text("width: "+width,20,60);
-    if (centerx + dx + w +20>= width){
-      centerx = (width - w)/2; //println("dx: "+x);
+    //if (centerx + dx + w +20>= width){
+    //  centerx = (width - w)/2; //println("dx: "+x);
+    //}
+    //else if (centerx + dx < 0) {
+    //  centerx = (width - w)/2;
+    //}
+    //else if (centery + sqrt(radius*radius-dx*dx) >= height-h){
+    //  centery= (height-h)/2;
+    //}
+    //else if (centery + sqrt(radius*radius-dx*dx) < 0) {
+    //  centery= (height-h)/2;
+    //}
+    //x = centerx + dx;
+    //y = centery + sqrt(radius*radius-dx*dx);
+    //dx -= change;
+    //if (dx < radius * -1 || dx > radius) {
+      
+    //  change *= -1;
+    //}
+    //ellipse(xPos,yPos,w,h);
+    //xPos+=xDir;
+    ////yPos+=1;
+    //if (xPos > width-w/2 || xPos < w/2) {
+    //  xDir=-xDir;
+    
+    angle += 0.025;
+    x = xspeed/5* pow(cos(angle),3) + x;
+    y = yspeed/5* pow(sin(angle),3) + y;
+
+    if (x >= width-300 || x <= 0){
+      xi *= -1;
     }
-    else if (centerx + dx < 0) {
-      centerx = (width - w)/2;
+    if (y >= height-300 || y <= 0){
+      yi *= -1;
     }
-    else if (centery + sqrt(radius*radius-dx*dx) >= height-h){
-      centery= (height-h)/2;
-    }
-    else if (centery + sqrt(radius*radius-dx*dx) < 0) {
-      centery= (height-h)/2;
-    }
-    x = centerx + dx;
-    y = centery + sqrt(radius*radius-dx*dx);
-    dx -= change;
-    if (dx < radius * -1 || dx > radius) {
-      change *= -1;
-    }
-    pushMatrix();
-    rotate(radians(2));
-    translate(radius/x,radius/y);
-    fill(0);
-    popMatrix();
-    image(clearrock,x,y,w,h);
+
+    //boolean rotate = true;
+    //if (rotate) {
+    //  pushMatrix();
+    //  translate(radius/x,radius/y);
+    //  fill(255);
+    //  //popMatrix();
+    //  //image(clearrock,x,y,w,h);
+    //  ellipse(x,y,w,h);
+    //}
+     
   }
 }
 
@@ -209,24 +237,24 @@ void setup() {
   //println(PI*3/2);
   
   
-  size(300, 300);
+  size(600,600);
   thingsToDisplay = new ArrayList<Displayable>();
   thingsToMove = new ArrayList<Moveable>();
   ListOfCollideables = new ArrayList<Collideable>();
   for (int i = 0; i < 2; i++) {
-    Ball b = new Ball(50+random(width-100), 50+random(height-100));
-    thingsToDisplay.add(b);
-    thingsToMove.add(b);
-    ListOfCollideables.add(b);
-    //Rock r = new Rock(50+random(width-100), 50+random(height-100));
-    //thingsToDisplay.add(r);
-    //ListOfCollideables.add(r);
+    //Ball b = new Ball(50+random(width-100), 50+random(height-100));
+    //thingsToDisplay.add(b);
+    //thingsToMove.add(b);
+    //ListOfCollideables.add(b);
+    Rock r = new Rock(50+random(width-100), 50+random(height-100));
+    thingsToDisplay.add(r);
+    ListOfCollideables.add(r);
   }
   for (int i = 0; i < 3; i++) {
     LivingRock m = new LivingRock(50+random(width-100), 50+random(height-100));
-    //thingsToDisplay.add(m);
-    //thingsToMove.add(m);
-    //ListOfCollideables.add(m);
+    thingsToDisplay.add(m);
+    thingsToMove.add(m);
+    ListOfCollideables.add(m);
   }
   rock = loadImage("rock.jpg");
   clearrock = loadImage("rock.png");
