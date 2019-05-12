@@ -92,6 +92,11 @@ public class LivingRock extends Rock implements Moveable{
   float radius;
   int line;
   int lastStretch;
+  float xi = random(-2,2);
+  float yi = random(-2,2);
+  float angle = random(360);
+  int xspeed = 50;
+  int yspeed = 50;
   int move;
   void display(){
     image(clearrock,x,y,w,h);
@@ -101,6 +106,7 @@ public class LivingRock extends Rock implements Moveable{
     fill(0);
     ellipse(x+(w)/3,y+11,(w)/10, 6);
     ellipse(x+2*(w)/3,y+11,(w)/10, 6);
+    fill(255);
     //text("display: "+w,20,20);
   }
   void move() {
@@ -116,8 +122,12 @@ public class LivingRock extends Rock implements Moveable{
   }
   
   void move0() {
-    //text("move: "+(x+w),20,40);
-    //text("width: "+width,20,60);
+    angle += 0.025;
+    x = xspeed/5* pow(cos(angle),3) + x;
+    y = yspeed/5* pow(sin(angle),3) + y;
+
+    if (x >= width-300 || x <= 0){
+      xi *= -1;
     if (centerx + dx + w +20>= width){
       centerx-=2; //println("dx: "+x);
     }
@@ -130,18 +140,21 @@ public class LivingRock extends Rock implements Moveable{
     else if (centery + sqrt(radius*radius-dx*dx) < 0) {
       centery-=2;
     }
-    x = centerx + dx;
-    y = centery + sqrt(radius*radius-dx*dx);
-    dx -= change;
-    if (dx < radius * -1 || dx > radius) {
-      change *= -1;
+    if (y >= height-300 || y <= 0){
+      yi *= -1;
     }
-    pushMatrix();
-    rotate(radians(2));
-    translate(radius/x,radius/y);
-    fill(0);
-    popMatrix();
-    image(clearrock,x,y,w,h);
+
+    //boolean rotate = true;
+    //if (rotate) {
+    //  pushMatrix();
+    //  translate(radius/x,radius/y);
+    //  fill(255);
+    //  //popMatrix();
+    //  //image(clearrock,x,y,w,h);
+    //  ellipse(x,y,w,h);
+    //}
+     
+  }
   }
   
   void move1() {
@@ -272,8 +285,6 @@ void setup() {
   //println(slopeToRadians(1,1));
   //println(calculateBounce(0,1,1,0));
   //println(PI*3/2);
-  
-  
   size(1000, 600);
   thingsToDisplay = new ArrayList<Displayable>();
   thingsToMove = new ArrayList<Moveable>();
