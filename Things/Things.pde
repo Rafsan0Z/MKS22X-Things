@@ -213,9 +213,27 @@ class Ball2 extends Ball{
   }
 }
 class Ball3 extends Ball{
-  Ball3(float x, float y){super(x,y);}
-  void collide(){}
-  void display(){}
+  Ball3(float x, float y){
+  super(x,y);
+  b = red;
+}
+  color b;
+  color red = color(255,204,0);
+  color blue = color(175,100,220);
+  void collide(){
+    float ox = dx;
+    float oy = dy;
+    super.collide();
+    if(ox != dx && oy != dy){
+    if(b == red){b = blue;}
+      else{b = red;}
+    }
+  }
+  void display(){
+    super.display();
+    fill(b);
+    rect(x-size/6,y-size/6,size/3,size/3);    
+  }
 }
 class Ball extends Thing implements Moveable,Collideable {
   Ball(float x, float y) {
@@ -318,8 +336,9 @@ void setup() {
   ListOfCollideables.add(b);
   
   for (int i = 0; i < 10; i++) {
-    if (i%2 == 0){b = new Ball(60+random(width-100), 60+random(height-100));}
-    else{b = new Ball2(60+random(width-100), 60+random(height-100));}
+    if (i%3 == 0){b = new Ball(60+random(width-100), 60+random(height-100));}
+    else if(i%3 == 1){b = new Ball2(60+random(width-100), 60+random(height-100));}
+    else if(i%3 == 2){b = new Ball3(60+random(width-100), 60+random(height-100));}
     thingsToDisplay.add(b);
     thingsToMove.add(b);
     ListOfCollideables.add(b);
