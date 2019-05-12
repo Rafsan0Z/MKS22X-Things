@@ -83,14 +83,12 @@ public class LivingRock extends Rock implements Moveable{
     lastStretch = tick;
     baseW = w;
     move = (int)random(0,3);
-    line = 0;
   }
   float baseW;
   float dx;
   float change = 1;
   float centerx, centery;
   float radius;
-  int line;
   int lastStretch;
   float xi = random(-2,2);
   float yi = random(-2,2);
@@ -98,6 +96,7 @@ public class LivingRock extends Rock implements Moveable{
   int xspeed = 50;
   int yspeed = 50;
   int move;
+
   void display(){
     image(clearrock,x,y,w,h);
     fill(255);
@@ -159,42 +158,6 @@ public class LivingRock extends Rock implements Moveable{
   }
   
   void move2() {
- 
-    if (line == 0) {
-      x+=1;
-    }
-    if (line == 1) {
-      y+=1;
-    }
-    if (line == 2) {
-      x-=1;
-    }
-    if (line == 3) {
-      y-=1;
-    }
-    change++;
-    if (change > 300) {
-      line++;
-      if (line > 3) {
-        line = 0;
-      }
-      change = 0;
-    }
-    if (x < 0) {
-      line = 0;
-    }
-    if (x > width - w) {
-      line = 2;
-    }
-    if (y < 0) {
-      line = 1;
-    }
-    if (y > height - h) {
-      line = 3;
-    }
-  }
-  
-  void move3() {
     angle += 0.025;
 
     if (y >= height-h || y <= 0){
@@ -286,11 +249,11 @@ float calculateBounce(float dx, float dy, float sx, float sy){
   float angleOfReflection = 2*(angleOfNormal) - angleOfIncidence;
   return angleOfReflection;
 }
-
 void setup() {
   //println(slopeToRadians(1,1));
   //println(calculateBounce(0,1,1,0));
   //println(PI*3/2);
+
   size(1000, 600);
   thingsToDisplay = new ArrayList<Displayable>();
   thingsToMove = new ArrayList<Moveable>();
