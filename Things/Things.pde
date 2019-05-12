@@ -29,7 +29,7 @@ abstract class Thing implements Displayable, Collideable {
   float getX() {return x;}
   float getY() {return y;}
   boolean isTouching(Thing other){
-    return sqrt(sq(this.x-other.x)+sq(this.y-other.y)) < this.radius + other.radius + 5;
+    return sqrt(sq(this.getX()-other.x)+sq(this.getY()-other.y)) < this.radius + other.radius + 5;
   }
   abstract void display();
   abstract void collide();
@@ -48,22 +48,15 @@ class Rock extends Thing implements Collideable {
     super(x, y);
     h = 40+random(30);
     w = 40+random(30);
-    //rimage = clearrock;
-    if (random(0,1) < 0.5) {
-      choice = 0;
-    }
-    else {
-      choice = 1;
-    }
-    radius = sqrt(sq(h)+sq(w))/2;
+    choice = (int) random(2);
+    radius = sqrt(sq(h)+sq(w))/2 - 10;
   }
   void display() {
-    /* ONE PERSON WRITE THIS */
     if (choice == 0) {
-       image(clearrock,x,y,w,h);
+      image(clearrock,x,y,w,h);
     }
     else {
-      image(clearrock2, x, y, w, h);
+      image(clearrock2,x,y,w,h);
     }
   }
 }
