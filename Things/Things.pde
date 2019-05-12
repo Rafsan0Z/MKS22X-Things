@@ -212,6 +212,11 @@ class Ball2 extends Ball{
     ellipse(x,y,size/3,size/3);
   }
 }
+class Ball3 extends Ball{
+  Ball3(float x, float y){super(x,y);}
+  void collide(){}
+  void display(){}
+}
 class Ball extends Thing implements Moveable,Collideable {
   Ball(float x, float y) {
     super(x, y);
