@@ -82,6 +82,7 @@ public class LivingRock extends Rock implements Moveable{
     radius = random(10,100);
     lastStretch = tick;
     baseW = w;
+    move = (int)random(0,2);
   }
   float baseW;
   float dx;
@@ -89,11 +90,15 @@ public class LivingRock extends Rock implements Moveable{
   float centerx, centery;
   float radius;
   int lastStretch;
+<<<<<<< HEAD
   float xi = random(-2,2);
   float yi = random(-2,2);
   float angle = random(360);
   int xspeed = 50;
   int yspeed = 50;
+=======
+  int move;
+>>>>>>> 6288a2a95e944395d0f43458ea08a4e5c3f49dc7
   void display(){
     image(clearrock,x,y,w,h);
     fill(255);
@@ -106,8 +111,18 @@ public class LivingRock extends Rock implements Moveable{
     //text("display: "+w,20,20);
   }
   void move() {
+    if (move == 0) {
+      move0();
+    }
+    if (move == 1) {
+      move1();
+    }
+  }
+  
+  void move0() {
     //text("move: "+(x+w),20,40);
     //text("width: "+width,20,60);
+<<<<<<< HEAD
     //if (centerx + dx + w +20>= width){
     //  centerx = (width - w)/2; //println("dx: "+x);
     //}
@@ -139,6 +154,19 @@ public class LivingRock extends Rock implements Moveable{
 
     if (x >= width-300 || x <= 0){
       xi *= -1;
+=======
+    if (centerx + dx + w +20>= width){
+      centerx-=2; //println("dx: "+x);
+    }
+    else if (centerx + dx < 0) {
+      centerx-=2;
+    }
+    else if (centery + sqrt(radius*radius-dx*dx) >= height-h){
+      centery-=2;
+    }
+    else if (centery + sqrt(radius*radius-dx*dx) < 0) {
+      centery-=2;
+>>>>>>> 6288a2a95e944395d0f43458ea08a4e5c3f49dc7
     }
     if (y >= height-300 || y <= 0){
       yi *= -1;
@@ -154,6 +182,20 @@ public class LivingRock extends Rock implements Moveable{
     //  ellipse(x,y,w,h);
     //}
      
+  }
+  
+  void move1() {
+    x+= change;
+    y = 40*sin(x/20)+centery;
+    if (x > width - w || x < 0) {
+      change*=-1;
+    }
+    if (y > height - h) {
+      centery--;
+    }
+    if (y < 0) {
+      centery++;
+    }
   }
 }
 
@@ -237,15 +279,26 @@ void setup() {
   //println(PI*3/2);
   
   
+<<<<<<< HEAD
   size(600,600);
+=======
+  size(1000, 600);
+>>>>>>> 6288a2a95e944395d0f43458ea08a4e5c3f49dc7
   thingsToDisplay = new ArrayList<Displayable>();
   thingsToMove = new ArrayList<Moveable>();
   ListOfCollideables = new ArrayList<Collideable>();
   for (int i = 0; i < 2; i++) {
+<<<<<<< HEAD
     //Ball b = new Ball(50+random(width-100), 50+random(height-100));
     //thingsToDisplay.add(b);
     //thingsToMove.add(b);
     //ListOfCollideables.add(b);
+=======
+    Ball b = new Ball(50+random(width-100), 50+random(height-100));
+    thingsToDisplay.add(b);
+    thingsToMove.add(b);
+    ListOfCollideables.add(b);
+>>>>>>> 6288a2a95e944395d0f43458ea08a4e5c3f49dc7
     Rock r = new Rock(50+random(width-100), 50+random(height-100));
     thingsToDisplay.add(r);
     ListOfCollideables.add(r);
