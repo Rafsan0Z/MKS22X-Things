@@ -69,7 +69,7 @@ public class LivingRock extends Rock implements Moveable{
     radius = random(10,100);
     lastStretch = tick;
     baseW = w;
-    move = 3;//(int)random(0,4);
+    move = (int)random(0,4);
     line = 0;
   }
   float baseW;
