@@ -82,13 +82,15 @@ public class LivingRock extends Rock implements Moveable{
     radius = random(10,100);
     lastStretch = tick;
     baseW = w;
-    move = (int)random(0,2);
+    move = (int)random(0,3);
+    line = 0;
   }
   float baseW;
   float dx;
   float change = 1;
   float centerx, centery;
   float radius;
+  int line;
   int lastStretch;
   int move;
   void display(){
@@ -107,6 +109,9 @@ public class LivingRock extends Rock implements Moveable{
     }
     if (move == 1) {
       move1();
+    }
+    if (move == 2) {
+      move2();
     }
   }
   
@@ -150,6 +155,41 @@ public class LivingRock extends Rock implements Moveable{
     }
     if (y < 0) {
       centery++;
+    }
+  }
+  
+  void move2() {
+    if (line == 0) {
+      x+=1;
+    }
+    if (line == 1) {
+      y+=1;
+    }
+    if (line == 2) {
+      x-=1;
+    }
+    if (line == 3) {
+      y-=1;
+    }
+    change++;
+    if (change > 300) {
+      line++;
+      if (line > 3) {
+        line = 0;
+      }
+      change = 0;
+    }
+    if (x < 0) {
+      line = 0;
+    }
+    if (x > width - w) {
+      line = 2;
+    }
+    if (y < 0) {
+      line = 1;
+    }
+    if (y > height - h) {
+      line = 3;
     }
   }
 }
