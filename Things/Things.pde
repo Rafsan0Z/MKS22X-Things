@@ -206,6 +206,11 @@ class Ball2 extends Ball{
     super.collide();
     if (dx != ox && dy != oy){c = color((int)random(256),(int)random(256),(int)random(256));}
   }
+  void display(){
+    super.display();
+    fill(250);
+    ellipse(x,y,size/3,size/3);
+  }
 }
 class Ball extends Thing implements Moveable,Collideable {
   Ball(float x, float y) {
