@@ -82,7 +82,7 @@ public class LivingRock extends Rock implements Moveable{
     radius = random(10,100);
     lastStretch = tick;
     baseW = w;
-    move = (int)random(0,3);
+    move = 3;//(int)random(0,4);
     line = 0;
   }
   float baseW;
@@ -92,9 +92,8 @@ public class LivingRock extends Rock implements Moveable{
   float radius;
   int line;
   int lastStretch;
-  float xi = random(-2,2);
-  float yi = random(-2,2);
-  float angle = random(360);
+  float xangle = random(360);
+  float yangle = random(360);
   int xspeed = 50;
   int yspeed = 50;
   int move;
@@ -118,6 +117,9 @@ public class LivingRock extends Rock implements Moveable{
     }
     if (move == 2) {
       move2();
+    }
+    if (move == 3) {
+      move3();
     }
   }
   
@@ -195,18 +197,22 @@ public class LivingRock extends Rock implements Moveable{
   }
   
   void move3() {
-    angle += 0.025;
+    xangle += 0.025;
+    yangle += 0.025;
+    
+    if (x <= width/2 || x > width - width/2){
+      //yspeed *= -1;
+      xangle*=-1;
+    }
+    
+    x = xspeed/15* pow(cos(xangle),3) + x;
 
     if (y >= height-h || y <= 0){
-      yi *= -1;
-    }
-  
-    if (x >= width-w || x <= 0){
-      xi *= -1;
+      //xspeed *= -1;
+      yangle*=-1;
     }
 
-    x = xspeed/15* pow(cos(angle),3) + x;
-    y = yspeed/15* pow(sin(angle),3) + y;
+    y = yspeed/15* pow(sin(yangle),3) + y;
     
   }
   
