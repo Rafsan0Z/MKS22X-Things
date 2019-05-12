@@ -29,7 +29,7 @@ abstract class Thing implements Displayable, Collideable {
   float getX() {return x;}
   float getY() {return y;}
   boolean isTouching(Thing other){
-    return sqrt(sq(this.getX()-other.x)+sq(this.getY()-other.y)) < this.radius + other.radius + 5;
+    return sqrt(sq(this.x-other.x)+sq(this.y-other.y)) < this.radius + other.radius + 5;
   }
   abstract void display();
   abstract void collide();
@@ -48,15 +48,28 @@ class Rock extends Thing implements Collideable {
     super(x, y);
     h = 40+random(30);
     w = 40+random(30);
-    choice = (int) random(2);
-    radius = sqrt(sq(h)+sq(w))/2 - 10;
-  }
-  void display() {
-    if (choice == 0) {
-      image(clearrock,x,y,w,h);
+    //rimage = clearrock;
+    if (random(0,1) < 0.5) {
+      choice = 0;
     }
     else {
-      image(clearrock2,x,y,w,h);
+      choice = 1;
+    }
+    radius = sqrt(sq(h)+sq(w))/2;
+  }
+  
+  boolean isTouching(Thing other){
+    return other.x == this.x && other.y == this.y;
+  }
+  
+  void display() {
+    /* ONE PERSON WRITE THIS */
+    if (choice == 0) {
+       image(clearrock,x,y,w,h);
+    }
+    else {
+      image(clearrock2, x, y, w, h);
+      
     }
   }
 }
@@ -187,42 +200,24 @@ public class LivingRock extends Rock implements Moveable{
     xangle += 0.025;
     yangle += 0.025;
     
-    if (y >= width-w || y <= 0){
+    if (x <= w/2 || x > width - w/2){
       //yspeed *= -1;
       xangle*=-1;
+      //x*=-1;
     }
-    
     x = xspeed/15* pow(cos(xangle),3) + x;
 
-    if (y >= height-h || y <= 0){
+    if (y <= h/2 || y > height - h/2){
       //xspeed *= -1;
       yangle*=-1;
+      //y*=-1;
     }
-
     y = yspeed/15* pow(sin(yangle),3) + y;
     
   }
   
 }
-class Ball2 extends Ball{
-  Ball2(float x, float y){super(x,y);}
-  void collide(){
-    float ox = dx;
-    float oy = dy;
-    super.collide();
-    if (dx != ox && dy != oy){c = color((int)random(256),(int)random(256),(int)random(256));}
-  }
-  void display(){
-    super.display();
-    fill(250);
-    ellipse(x,y,size/3,size/3);
-  }
-}
-class Ball3 extends Ball{
-  Ball3(float x, float y){super(x,y);}
-  void collide(){}
-  void display(){}
-}
+
 class Ball extends Thing implements Moveable,Collideable {
   Ball(float x, float y) {
     super(x, y);
@@ -234,11 +229,7 @@ class Ball extends Thing implements Moveable,Collideable {
     speed = 1;
     direction = random(2*PI);
   }
-  Ball(float x, float y, float dx, float dy){
-    this(x,y);
-    this.dx = dx;
-    this.dy = dy;
-  }
+  
   color c;
   int size;
   float speed;
@@ -252,21 +243,20 @@ class Ball extends Thing implements Moveable,Collideable {
   void collide(){
     for (Collideable coll : ListOfCollideables){
       if (coll != this && coll.isTouching(this)){
-        PVector v = new PVector(dx,dy);
-        if (v.mag() > 4){v.setMag(v.mag()*.5);}
-        PVector f = new PVector(getX() - coll.getX(),getY() - coll.getY());
-        f.normalize();
-        v.add(f);
-        dx = v.x;
-        dy = v.y;
+        float angleOfReflection = calculateBounce(dx,dy,x-coll.getX(), y-coll.getY());
+        println(angleOfReflection);
+        float magnitude = sqrt(sq(dx)+sq(dy));
+        dx = magnitude*sin(angleOfReflection);
+        dy = magnitude*cos(angleOfReflection);
+        //exit();
       }
     }
   }
   void move() {
-    if (x <= size/2 || x > width - size/2 - 5){
+    if (x <= size/2 || x > width - size/2){
       dx*=-1; //dy*=random(.9,1.1);
     }
-    else if (y <= size/2 || y > height - size/2 - 5){
+    else if (y <= size/2 || y > height - size/2){
       dy*=-1; //dx*=random(.9,1.1);
     }
     x+=dx;
@@ -297,11 +287,8 @@ float slopeToRadians(float x, float y){
   return 0.0;
 }
 float calculateBounce(float dx, float dy, float sx, float sy){
-  println("\n dx: "+dx + " dy: " + dy);
-  float angleOfNormal = atan2(sx,sy); 
-  float angleOfIncidence = atan2(dy,dx); println("indcidence: "+degrees(angleOfIncidence));
-  //if (sy < 0){angleOfNormal+=PI; angleOfIncidence+=PI;}
-  println("norm:" + degrees(angleOfNormal)%360);
+  float angleOfNormal = slopeToRadians(sy,sx); //println(angleOfNormal);
+  float angleOfIncidence = slopeToRadians(dx,dy); //println(angleOfIncidence);
   float angleOfReflection = 2*(angleOfNormal) - angleOfIncidence;
   return angleOfReflection;
 }
@@ -314,18 +301,8 @@ void setup() {
   thingsToDisplay = new ArrayList<Displayable>();
   thingsToMove = new ArrayList<Moveable>();
   ListOfCollideables = new ArrayList<Collideable>();
-  Ball b = new Ball(60, 60,1,1);
-  thingsToDisplay.add(b);
-  thingsToMove.add(b);
-  ListOfCollideables.add(b);
-  b = new Ball(width-60, height-60,-1,-1);
-  thingsToDisplay.add(b);
-  thingsToMove.add(b);
-  ListOfCollideables.add(b);
-  
-  for (int i = 0; i < 10; i++) {
-    if (i%2 == 0){b = new Ball(60+random(width-100), 60+random(height-100));}
-    else{b = new Ball2(60+random(width-100), 60+random(height-100));}
+  for (int i = 0; i < 2; i++) {
+    Ball b = new Ball(50+random(width-100), 50+random(height-100));
     thingsToDisplay.add(b);
     thingsToMove.add(b);
     ListOfCollideables.add(b);
@@ -333,7 +310,6 @@ void setup() {
     thingsToDisplay.add(r);
     ListOfCollideables.add(r);
   }
-  
   for (int i = 0; i < 3; i++) {
     LivingRock m = new LivingRock(50+random(width-100), 50+random(height-100));
     thingsToDisplay.add(m);
