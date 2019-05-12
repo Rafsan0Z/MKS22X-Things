@@ -140,6 +140,11 @@ class Ball extends Thing implements Moveable,Collideable {
     speed = 1;
     direction = random(2*PI);
   }
+  Ball(float x, float y, float dx, float dy){
+    this(x,y);
+    this.dx = dx;
+    this.dy = dy;
+  }
   
   color c;
   int size;
@@ -155,7 +160,7 @@ class Ball extends Thing implements Moveable,Collideable {
     for (Collideable coll : ListOfCollideables){
       if (coll != this && coll.isTouching(this)){
         float angleOfReflection = calculateBounce(dx,dy,x-coll.getX(), y-coll.getY());
-        println(angleOfReflection);
+        println("relfect at: "+degrees(angleOfReflection)%360);
         float magnitude = sqrt(sq(dx)+sq(dy));
         dx = magnitude*sin(angleOfReflection);
         dy = magnitude*cos(angleOfReflection);
@@ -164,10 +169,10 @@ class Ball extends Thing implements Moveable,Collideable {
     }
   }
   void move() {
-    if (x <= size/2 || x > width - size/2){
+    if (x <= size/2 || x > width - size/2 - 5){
       dx*=-1; //dy*=random(.9,1.1);
     }
-    else if (y <= size/2 || y > height - size/2){
+    else if (y <= size/2 || y > height - size/2 - 5){
       dy*=-1; //dx*=random(.9,1.1);
     }
     x+=dx;
@@ -198,8 +203,11 @@ float slopeToRadians(float x, float y){
   return 0.0;
 }
 float calculateBounce(float dx, float dy, float sx, float sy){
-  float angleOfNormal = slopeToRadians(sy,sx); //println(angleOfNormal);
-  float angleOfIncidence = slopeToRadians(dx,dy); //println(angleOfIncidence);
+  println("\n dx: "+dx + " dy: " + dy);
+  float angleOfNormal = atan2(sx,sy); 
+  float angleOfIncidence = atan2(dy,dx); println("indcidence: "+degrees(angleOfIncidence));
+  //if (sy < 0){angleOfNormal+=PI; angleOfIncidence+=PI;}
+  println("norm:" + degrees(angleOfNormal)%360);
   float angleOfReflection = 2*(angleOfNormal) - angleOfIncidence;
   return angleOfReflection;
 }
@@ -209,12 +217,21 @@ void setup() {
   //println(PI*3/2);
   
   
-  size(300, 300);
+  size(500, 500);
   thingsToDisplay = new ArrayList<Displayable>();
   thingsToMove = new ArrayList<Moveable>();
   ListOfCollideables = new ArrayList<Collideable>();
-  for (int i = 0; i < 2; i++) {
-    Ball b = new Ball(50+random(width-100), 50+random(height-100));
+  Ball b = new Ball(60, 60,1,1);
+  thingsToDisplay.add(b);
+  thingsToMove.add(b);
+  ListOfCollideables.add(b);
+  b = new Ball(width-60, height-60,-1,-1);
+  thingsToDisplay.add(b);
+  thingsToMove.add(b);
+  ListOfCollideables.add(b);
+  
+  for (int i = 0; i < 0; i++) {
+    b = new Ball(60+random(width-100), 60+random(height-100));
     thingsToDisplay.add(b);
     thingsToMove.add(b);
     ListOfCollideables.add(b);
@@ -222,6 +239,7 @@ void setup() {
     //thingsToDisplay.add(r);
     //ListOfCollideables.add(r);
   }
+  
   for (int i = 0; i < 3; i++) {
     LivingRock m = new LivingRock(50+random(width-100), 50+random(height-100));
     //thingsToDisplay.add(m);
