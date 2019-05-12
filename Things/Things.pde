@@ -96,7 +96,10 @@ public class LivingRock extends Rock implements Moveable{
   int xspeed = 50;
   int yspeed = 50;
   int move;
+<<<<<<< HEAD
   
+=======
+>>>>>>> c00af60cabeccddb43faf67bacda4ab4e9de7465
   void display(){
     image(clearrock,x,y,w,h);
     fill(255);
@@ -121,8 +124,17 @@ public class LivingRock extends Rock implements Moveable{
   }
   
   void move0() {
+<<<<<<< HEAD
     //text("move: "+(x+w),20,40);
     //text("width: "+width,20,60);
+=======
+    angle += 0.025;
+    x = xspeed/5* pow(cos(angle),3) + x;
+    y = yspeed/5* pow(sin(angle),3) + y;
+
+    if (x >= width-300 || x <= 0){
+      xi *= -1;
+>>>>>>> c00af60cabeccddb43faf67bacda4ab4e9de7465
     if (centerx + dx + w +20>= width){
       centerx-=2; //println("dx: "+x);
     }
@@ -142,6 +154,7 @@ public class LivingRock extends Rock implements Moveable{
       
       change *= -1;
     }
+  }
   }
   
   void move1() {
@@ -254,7 +267,10 @@ void setup() {
   //println(slopeToRadians(1,1));
   //println(calculateBounce(0,1,1,0));
   //println(PI*3/2);
+<<<<<<< HEAD
  
+=======
+>>>>>>> c00af60cabeccddb43faf67bacda4ab4e9de7465
   size(1000, 600);
   thingsToDisplay = new ArrayList<Displayable>();
   thingsToMove = new ArrayList<Moveable>();
