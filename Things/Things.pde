@@ -229,11 +229,17 @@ class Ball3 extends Ball{
   void collide(){
     float ox = dx;
     float oy = dy;
-    super.collide();
+    for(Collideable c : ListOfCollideables){
+      if(c != this && c.isTouching(this)){
+        dx = -dy + 1;
+        dy = -dx + 1;
+      }
+    }
     if(ox != dx && oy != dy){
     if(b == red){b = blue;}
       else{b = red;}
     }
+    print(dx + "\n" + dy);
   }
   void display(){
     super.display();
