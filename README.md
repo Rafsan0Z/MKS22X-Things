@@ -82,8 +82,8 @@ SETUP CHANGES
 
 ------------------------------------------------------------Credits----------------------------------------------------------------
     
- Theodore: made balls move and bounce and have different speeds. added first rock image. made living rocks stretch when they moved. made collision system. Added 1 subclass of Ball
- <br>Rafsan: fixed mistakes and added aliens (which were later deleted). Added Collideables and made proper changes in the setup. Fixed merge problems and bugs. Added 1 subclass of Ball</br>
+ Theodore: made balls move and bounce and have different speeds. added first rock image. made living rocks stretch when they moved. made collision system. Added 1 subclass of Ball (Ball with circle in the middle, outer circle changes color)
+ <br>Rafsan: fixed mistakes and added aliens (which were later deleted). Added Collideables and made proper changes in the setup. Fixed merge problems and bugs. Added 1 subclass of Ball (Ball with square in the middle that changes color)</br>
  Ball: Rafsan and Theodore
  
  Sharon: I worked on the display method for Rock and made simple and complex shapes. Then I modified the constructor and   display method to randomly pick which of the three to show for a certain rock. Added one style of movement.
