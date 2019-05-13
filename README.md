@@ -86,5 +86,6 @@ SETUP CHANGES
  <br>Rafsan: fixed mistakes and added aliens (which were later deleted). Added Collideables and made proper changes in the setup. Fixed merge problems and bugs. Added 1 subclass of Ball</br>
  Ball: Rafsan and Theodore
  
- Sharon: I worked on the display method for Rock and made simple and complex shapes. And then I modified the constructor and   display method to randomly pick which of the three to show for a certain rock. 
+ Sharon: I worked on the display method for Rock and made simple and complex shapes. Then I modified the constructor and   display method to randomly pick which of the three to show for a certain rock. Added one style of movement.
+
  Rock: Jackson and Sharon
